@@ -1,5 +1,5 @@
 import re
-with open('a.c') as f:
+with open('test.c') as f:
     lines = f.readlines()
 
 output: list = []
@@ -11,29 +11,30 @@ def dfa(str1: str):
     state = 'a'
     begin = 0
     for item in str1:
-        # print(item)
         if(re.findall("^[a-zA-Z_0-9]*", item)[0]):
-            if(item == "i"):
+            if(item == "i" and state == "a"):
                 state = "b"
             elif(item == "f" and state == "b"):
                 state = "c"
+            elif(re.findall("[a-eg-zA-Z_0-9]*", item)[0] and state == "b"):
+                state = "d"
             elif(re.findall("^[a-zA-Z_0-9]*", item)[0] and state == "c"):
                 state = "d"
+            elif(re.findall("^[a-zA-Z_0-9]*", item)[0] and state == "d"):
+                state = "d"
         else:
-            # print(state)
             if(state == "c"):
                 output.append(("keyword", "if"))
-                begin = str1.find(item)
+                begin = str1.find(item)+1
             elif(state == "d"):
-                # mapper[str1[begin, str1.find(i)]] = None
                 output.append(("identifier", str1[begin: str1.find(item)]))
-                begin = str1.find(item)
+                begin = str1.find(item)+1
             if(item == "("):
                 output.append(("punctuation", "("))
-                begin = str1.find(item)
+                begin = str1.find(item)+1
             if(item == ")"):
                 output.append(("punctuation", ")"))
-                begin = str1.find(item)
+                begin = str1.find(item)+1
             state = "a"
 
 
