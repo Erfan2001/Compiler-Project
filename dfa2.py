@@ -6,7 +6,7 @@ with open('test.c') as f:
 output: list = []
 
 keyword = ["if", "else", "main", "while", "int",
-           "float", "for", "string", "do", "#include"]
+           "float", "for", "string", "do", "#include" ]
 punctuations = ["(", ")", ";", ",", "[", "]", "{", "}"]
 comparison = [">", "<", "<=", "==", ">=", "!="]
 # operations = ["+", "-", "*", "/", "%", "=",
@@ -40,8 +40,21 @@ def dfa(str1: str):
             elif(str1[i] in operations and not(flag)):
                 output.append(("operation", str1[i]))
             begin = i+1
-
+isComment = False ;
 
 for i in lines:
-    dfa(i.strip())
+    #delete_comment 
+    if i.endswith("*/") :
+        isComment = False ;
+    if isComment :
+        isComment = False ;
+        continue ;
+    if not i.startswith("//") and not i.startswith("/*")  : 
+        #print(i);
+        dfa(i.strip())
+    elif i.startswith("/*") :
+        isComment = True ;
+    
+
+
 print(output)
