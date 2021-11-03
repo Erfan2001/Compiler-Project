@@ -1,15 +1,96 @@
 import re
+
+# Input Path
 # inputFile = input("Enter Input Path\n")
+
+# Output Path
 # outputFile = input("Enter Output Path\n")
+
+# Remove Comments Function
+
+
+def remove_Comments(fileContent):
+    removeMultipleComments = re.sub(
+        "/\*[^*]*\*+(?:[^/*][^*]*\*+)*/", "", fileContent)
+    removeSingleComments = re.sub(
+        "//.*", "", removeMultipleComments)
+    result = removeSingleComments
+    return result
+
+# Remove Spaces Function
+
+
+def removeSpaces(data: str):
+    res = data.split("\n")
+    res = [x for x in res if x]
+    return "\n".join(res)
+
+# Replace Includes
+
+
+def replaceIncludes(data: str):
+    res = data.split("\n")
+    for index in range(len(res)):
+        if(res[index].startswith("#include")):
+            res[index] = res[index].replace(" ", "")
+            fileName = res[index].split("#include")[1][1:-1]
+            with open(fileName) as f:
+                fileData = f.read()
+            res[index] = fileData+"\n"
+        else:
+            res[index] += "\n"
+    return "".join(res)
+
+# Replace Defines
+
+
+def replaceDefines(data: str):
+    res = data.split("\n")
+    definesDic: dict = {}
+    for index in range(len(res)):
+        if(res[index].startswith("#define")):
+            key = res[index].split(" ")[1]
+            value = " ".join(res[index].split(" ")[2:])
+            definesDic[key] = value
+    for index in range(len(res)):
+        for key, value in definesDic.items():
+            res[index] = res[index].replace(key, value)
+        res[index] += "\n"
+    res = [x for x in res if not x.startswith("#")]
+    return "".join(res)
+
+
+# Read Lines from Source File
 with open("In/test.c") as f:
     lines = f.readlines()
 
-output: list = []
+# Read FileData from Source File
+with open("In/test.c") as f:
+    fileData = f.read()
+
+# Calling remove Comments
+program = remove_Comments(fileData)
+# Calling remove Includes
+result = replaceIncludes(program)
+# Calling remove Defines
+result2 = replaceDefines(result)
+# Calling remove Spaces
+result3 = removeSpaces(result2)
+# Write In New File
+with open("In/new.txt", "w") as f:
+    f.write(result3)
+
+# Operation Regex
 operationRegex = "[\+|\-|\*|\/|\%]+[\=]|[\+]+[\+]|[\-]+[\-]|[\+|\-|\*|\/|\%]|[\=]"
+# Comparison Regex
 comparisonRegex = "[\<|\>|\=|\!]+[\=]|[\<]|[\>]"
+# Punctuation Regex
 punctuationRegex = "\(|\)|\;|\,|\[|\]|\{|\}"
+# Keywords
 keyword = ["if", "else", "main", "while", "int",
            "float", "for", "string", "do", "#include"]
+
+output: list = []
 
 
 def finder(arr: list):
@@ -18,12 +99,6 @@ def finder(arr: list):
 
 def dfa(str1: str):
     begin = 0
-    if(str1.startswith("#include")):
-        output.append(("library", str1.split(" ")[1][1:-1]))
-        return
-    if(str1.startswith("#define")):
-        output.append(("definition", " ".join(str1.split(" ")[1:])))
-        return
     # str1 = str1.replace(" ", "")
     flag = False
     for i in range(len(str1)):
@@ -58,20 +133,7 @@ def dfa(str1: str):
             begin = i+1
 
 
-isComment = False
-
-for i in lines:
-    i = i.strip()
-    # Delete Comments
-    if i.endswith("*/"):
-        isComment = False
-    if isComment:
-        isComment = False
-        continue
-    if not i.startswith("//") and not i.startswith("/*"):
-        dfa(i.strip())
-    elif i.startswith("/*"):
-        isComment = True
+# Write in Output File
 with open("out/answer.txt", "w") as f:
     for i in output:
         f.write(i[0])
