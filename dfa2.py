@@ -6,9 +6,11 @@ import re
 # Output Path
 # outputFile = input("Enter Output Path\n")
 
+# Get Value from regex
+def finder(arr: list):
+    return [x for x in arr if x]
+
 # Remove Comments Function
-
-
 def remove_Comments(fileContent):
     removeMultipleComments = re.sub(
         "/\*[^*]*\*+(?:[^/*][^*]*\*+)*/", "", fileContent)
@@ -18,8 +20,6 @@ def remove_Comments(fileContent):
     return result
 
 # Remove Spaces Function
-
-
 def removeSpaces(data: str):
     res = data.split("\n")
     res = [x for x in res if x]
@@ -60,6 +60,16 @@ def replaceDefines(data: str):
     return "".join(res)
 
 
+def errorHandling(data: str):
+    res = data.split("\n")
+    for index in range(len(res)):
+        if(res[index].startswith("for") or res[index].startswith("while")):
+            if(not(finder(re.findall("\)", res[index]) and finder(re.findall("\(", res[index]))))):
+                print("In Line %d Has Error!!!!"%index)
+
+
+
+
 # Read Lines from Source File
 with open("In/test.c") as f:
     lines = f.readlines()
@@ -76,6 +86,8 @@ result = replaceIncludes(program)
 result2 = replaceDefines(result)
 # Calling remove Spaces
 result3 = removeSpaces(result2)
+#Calling Error Handling
+result4 = errorHandling(result3)
 # Write In New File
 with open("In/new.txt", "w") as f:
     f.write(result3)
@@ -92,9 +104,6 @@ keyword = ["if", "else", "main", "while", "int",
 
 output: list = []
 
-
-def finder(arr: list):
-    return [x for x in arr if x]
 
 
 def dfa(str1: str):
