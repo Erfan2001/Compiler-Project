@@ -1,5 +1,5 @@
 import re
-
+import os
 # Input Path
 # inputFile = input("Enter Input Path\n")
 
@@ -7,10 +7,14 @@ import re
 # outputFile = input("Enter Output Path\n")
 
 # Get Value from regex
+
+
 def finder(arr: list):
     return [x for x in arr if x]
 
 # Remove Comments Function
+
+
 def remove_Comments(fileContent):
     removeMultipleComments = re.sub(
         "/\*[^*]*\*+(?:[^/*][^*]*\*+)*/", "", fileContent)
@@ -20,6 +24,8 @@ def remove_Comments(fileContent):
     return result
 
 # Remove Spaces Function
+
+
 def removeSpaces(data: str):
     res = data.split("\n")
     res = [x for x in res if x]
@@ -61,18 +67,38 @@ def replaceDefines(data: str):
 
 
 def errorHandling(data: str):
+    # Default Value should be 1 for "int main()"
+    loopsCount = 1
+    parenthesesCount = 0
+    # Loops Count
+    for item in ["for", "while", "if", "else"]:
+        loopsCount += data.count(item)
+    # Parentheses Count
+    for item in ["{", "}"]:
+        parenthesesCount += data.count(item)
     res = data.split("\n")
     for index in range(len(res)):
+        # Parentheses Checking in while and for loop
         if(res[index].startswith("for") or res[index].startswith("while")):
             if(not(finder(re.findall("\)", res[index]) and finder(re.findall("\(", res[index]))))):
-                print("In Line %d Has Error!!!!"%index)
+                print("In Line %d Has Error!!!!" % index)
+        # Semicolon Checking
+        if finder(re.findall("^int|float|string|char", res[index])):
+            if(res[index][-1] != ";" and not finder(re.findall("main", res[index]))):
+                print("In Line %d Has Error!!!!" % index)
+         # ParenthesesCount in forLoop Checking
+        if finder(re.findall("^for", res[index])):
+            if(res[index].count(";") != 2):
+                print("In Line %d Has Error!!!!" % index)
+        # ParenthesesCount Checking
+        if(loopsCount*2 != parenthesesCount):
+            print("ParenthesesCount Error!!!!")
+        # Check File Exist
+        if(res[index].startswith("#include")):
+            fileName = res[index].split(" ")[1:]
+            if(not os.path.isfile(fileName)):
+                print("In Line %d Has Error!!!!" % index)
 
-
-
-
-# Read Lines from Source File
-with open("In/test.c") as f:
-    lines = f.readlines()
 
 # Read FileData from Source File
 with open("In/test.c") as f:
@@ -86,7 +112,7 @@ result = replaceIncludes(program)
 result2 = replaceDefines(result)
 # Calling remove Spaces
 result3 = removeSpaces(result2)
-#Calling Error Handling
+# Calling Error Handling
 result4 = errorHandling(result3)
 # Write In New File
 with open("In/new.txt", "w") as f:
@@ -103,7 +129,6 @@ keyword = ["if", "else", "main", "while", "int",
            "float", "for", "string", "do", "#include"]
 
 output: list = []
-
 
 
 def dfa(str1: str):
@@ -142,6 +167,12 @@ def dfa(str1: str):
             begin = i+1
 
 
+# Read Lines from Source File
+with open("In/new.txt") as f:
+    lines = f.readlines()
+
+for i in lines:
+    dfa(i)
 # Write in Output File
 with open("out/answer.txt", "w") as f:
     for i in output:
