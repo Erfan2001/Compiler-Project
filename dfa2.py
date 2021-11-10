@@ -126,21 +126,12 @@ comparisonRegex = "[\<|\>|\=|\!]+[\=]|[\<]|[\>]"
 punctuationRegex = "\(|\)|\;|\,|\[|\]|\{|\}"
 # Keywords
 keyword = ["if", "else", "main", "while", "int",
-<<<<<<< HEAD
-           "float", "for", "string", "do", "#include" ]
-punctuations = ["(", ")", ";", ",", "[", "]", "{", "}"]
-comparison = [">", "<", "<=", "==", ">=", "!="]
-# operations = ["+", "-", "*", "/", "%", "=",
-#               "++", "--", "+=", "-=", "/=", "*=", "%="]
-operations = ["+", "-", "*", "/", "%", "="]
-=======
            "float", "for", "string", "do", "#include"]
 
 output: list = []
->>>>>>> 895cd5ec4932f94c4e676e88decca51caeff0042
 
 
-def dfa(str1: str):
+def dfa(str1: str , lineNumber : int ):
     begin = 0
     # str1 = str1.replace(" ", "")
     flag = False
@@ -151,6 +142,8 @@ def dfa(str1: str):
             token = str1[begin:i]
             if(token in keyword):
                 output.append(("keyword", token))
+            elif(finder(re.findall("^[0-9]+[a-zA-Z_0-9]+", token))):
+                print("lexical error that happened in line : %d "%lineNumber)
             elif(finder(re.findall("^[0-9]*", token))):
                 output.append(("number", token))
             elif(finder(re.findall("^[a-zA-Z_0-9]*", token))):
@@ -174,31 +167,15 @@ def dfa(str1: str):
                 else:
                     flag = False
             begin = i+1
-isComment = False ;
+
 
 # Read Lines from Source File
 with open("In/new.txt") as f:
     lines = f.readlines()
-
+lineNumber = 1
 for i in lines:
-<<<<<<< HEAD
-    #delete_comment 
-    if i.endswith("*/") :
-        isComment = False ;
-    if isComment :
-        isComment = False ;
-        continue ;
-    if not i.startswith("//") and not i.startswith("/*")  : 
-        #print(i);
-        dfa(i.strip())
-    elif i.startswith("/*") :
-        isComment = True ;
-    
-
-
-print(output)
-=======
-    dfa(i)
+    dfa(i ,lineNumber)
+    lineNumber +=1
 # Write in Output File
 with open("out/answer.txt", "w") as f:
     for i in output:
@@ -206,4 +183,3 @@ with open("out/answer.txt", "w") as f:
         f.write(":: ")
         f.write(i[1])
         f.write("\n")
->>>>>>> 895cd5ec4932f94c4e676e88decca51caeff0042
