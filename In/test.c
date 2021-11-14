@@ -4,9 +4,8 @@ start
 {
 //im writing c compiler
 seta;
-float a1= 2 * 5;
-int q;
-int w= 4 + 5;
+float b=5;
+int 2q;
 int c=7;
 int d=a*c;
 for(int i=0;i<3;i++){

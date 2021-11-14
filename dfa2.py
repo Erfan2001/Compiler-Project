@@ -131,7 +131,7 @@ operationArray = ["+", "-", "*", "/", "%", "="]
 comparisonArray = ["<", ">", "!"]
 
 
-def dfa(str1: str, index: int):
+def dfa(str1: str , lineNumber : int ):
     begin = 0
     # str1 = str1.replace(" ", "")
     i = 0
@@ -142,7 +142,9 @@ def dfa(str1: str, index: int):
                 print("Line %d has lexical Error (identifier)" % index)
             if(token in keyword):
                 output.append(("keyword", token))
-            elif(finder(re.findall("^[0-9]*$", token))):
+            elif(finder(re.findall("^[0-9]+[a-zA-Z_0-9]+", token))):
+                print("lexical error that happened in line : %d "%lineNumber)
+            elif(finder(re.findall("^[0-9]*", token))):
                 output.append(("number", token))
             elif(finder(re.findall("^[_a-zA-Z]+[a-zA-Z_0-9]*", token))):
                 output.append(("identifier", token))
@@ -171,9 +173,10 @@ def dfa(str1: str, index: int):
 # Read Lines from Source File
 with open("In/new.txt") as f:
     lines = f.readlines()
-
+lineNumber = 1
 for i in lines:
-    dfa(i, lines.index(i)+1)
+    dfa(i ,lineNumber)
+    lineNumber +=1
 # Write in Output File
 with open("out/answer.txt", "w") as f:
     for i in output:
