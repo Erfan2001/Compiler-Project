@@ -8,8 +8,7 @@ identifier:: a
 operation:: =
 punctuation:: ;
 keyword:: float
-operation:: *
-number:: 11
+identifier:: a1
 operation:: =
 number:: 2
 operation:: *
@@ -22,6 +21,7 @@ keyword:: int
 identifier:: w
 operation:: =
 number:: 4
+operation:: +
 number:: 5
 punctuation:: ;
 keyword:: int
