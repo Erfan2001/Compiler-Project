@@ -4,10 +4,12 @@ start
 {
 //im writing c compiler
 seta;
-float b=5;
-int 2q;
-int c=7;
-int d=a*c;
+float a=5.6566563e65;
+float b=a.q;
+int c=2222;
+int 2d;
+int e=7;
+int f=a*e;
 for(int i=0;i<3;i++){
 }
 }

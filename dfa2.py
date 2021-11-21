@@ -137,17 +137,19 @@ def dfa(str1: str, lineNumber: int):
     flag = False
     for i in range(len(str1)):
 
-        if(finder(re.findall("^[a-zA-Z_0-9]*", str1[i]))):
+        if(finder(re.findall("^[a-zA-Z_0-9\.]*", str1[i]))):
             continue
         else:
             token = str1[begin:i]
             if(token in keyword):
                 output.append(("keyword", token))
-            elif(finder(re.findall("^[0-9]+[a-zA-Z_0-9]+", token))):
+            elif(finder(re.findall("^[0-9]+[a-df-zA-Z_]+", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
-            elif(finder(re.findall("^[0-9]*", token))):
+            elif(finder(re.findall("^[a-zA-Z_0-9]+(\.)+[a-df-zA-Z_]+", token))):
+                print("lexical error that happened in line : %d " % lineNumber)
+            elif(finder(re.findall("^[0-9]+", token))):
                 output.append(("number", token))
-            elif(finder(re.findall("^[a-zA-Z_0-9]*", token))):
+            elif(finder(re.findall("^[a-zA-Z_][a-zA-Z_0-9]*", token))):
                 output.append(("identifier", token))
             if(finder(re.findall(punctuationRegex, str1[i]))):
                 output.append(("punctuation", str1[i]))

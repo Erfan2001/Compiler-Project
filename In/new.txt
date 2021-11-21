@@ -1,11 +1,12 @@
 int main()
 {
 int a=3;
-float a1= 2 * 5;
-int q;
-int w= 4 + 5;
-int c=7;
-int d=a*c;
+float a=5.6566563eqqqqq65;
+float b=a.q;
+int c=2222;
+int 2.222d;
+int e=7;
+int f=a*e;
 for(int i=0;i<3;i++){
 }
 }
