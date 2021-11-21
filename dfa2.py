@@ -136,6 +136,7 @@ def dfa(str1: str, lineNumber: int):
     # str1 = str1.replace(" ", "")
     flag = False
     for i in range(len(str1)):
+
         if(finder(re.findall("^[a-zA-Z_0-9]*", str1[i]))):
             continue
         else:
