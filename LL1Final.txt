@@ -17,9 +17,10 @@ operation -> -
 operation -> *
 operation -> /
 operation -> %
-expression-statement -> number
-expression-statement -> identifier
-expression-statement -> expression-statement operation expression-statement
+expression-statement -> number exp-st
+expression-statement -> identifier exp-st
+exp-st -> operation expression-statement exp-st
+exp-st -> ''
 initialize-statement -> type identifier
 initialize-statement -> type identifier = expression-statement
 type -> int
