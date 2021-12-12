@@ -1,3 +1,4 @@
+mainStatement -> int main { statement }
 statement -> labeled-statement
 statement -> compound-statement
 statement -> selection-statement
