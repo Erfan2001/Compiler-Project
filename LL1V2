@@ -1,0 +1,53 @@
+statement -> labeled-statement
+statement -> compound-statement
+statement -> selection-statement
+statement -> iteration-statement
+statement -> jump-statement
+statement -> initialize-statement
+semicolon -> ; semicolon-temp
+semicolon-temp -> ''
+semicolon-temp -> statement 
+labeled-statement -> identifier labeled-statement-temp
+labeled-statement-temp -> calculation expression-statement semicolon
+labeled-statement-temp -> ++ semicolon 
+labeled-statement-temp -> -- semicolon 
+calculation -> =
+calculation -> +=
+calculation -> -=
+calculation -> *=
+calculation -> /=
+calculation -> %=
+operation -> +
+operation -> -
+operation -> *
+operation -> /
+operation -> %
+expression-statement -> number exp-st
+expression-statement -> identifier exp-st
+exp-st -> ''
+exp-st -> operation expression-statement
+initialize-statement -> type identifier initialize-statement-temp
+initialize-statement-temp -> semicolon
+initialize-statement-temp -> = expression-statement
+type -> int
+type -> float
+type -> char
+compound-statement -> { statement }
+selection-statement -> if ( condition ) statement
+condition -> expression-statement condition-temp
+condition-temp -> comparison expression-statement
+condition-temp -> ''
+comparison -> ==
+comparison -> >=
+comparison -> <= 
+comparison -> !=
+comparison -> >
+comparison -> <
+iteration-statement -> while ( condition ) statement
+iteration-statement -> do statement while ( condition ) semicolon 
+iteration-statement -> for ( for-init-statement semicolon condition semicolon labeled-statement ) statement
+for-init-statement -> initialize-statement
+for-init-statement -> labeled-statement
+jump-statement -> break semicolon 
+jump-statement -> continue semicolon 
+jump-statement ->  return expression-statement semicolon 
