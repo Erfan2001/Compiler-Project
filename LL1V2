@@ -1,4 +1,4 @@
-mainStatement -> int main { statement }
+mainStatement -> int main ( ) { statement 
 statement -> labeled-statement
 statement -> compound-statement
 statement -> selection-statement
@@ -6,8 +6,12 @@ statement -> iteration-statement
 statement -> jump-statement
 statement -> initialize-statement
 semicolon -> ; semicolon-temp
-semicolon-temp -> ''
 semicolon-temp -> statement 
+semicolon-temp -> brace
+brace -> } brace-temp
+brace-temp -> statement
+brace-temp -> }
+brace-temp -> ''
 labeled-statement -> identifier labeled-statement-temp
 labeled-statement-temp -> calculation expression-statement semicolon
 labeled-statement-temp -> ++ semicolon 
@@ -29,11 +33,11 @@ exp-st -> ''
 exp-st -> operation expression-statement
 initialize-statement -> type identifier initialize-statement-temp
 initialize-statement-temp -> semicolon
-initialize-statement-temp -> = expression-statement
+initialize-statement-temp -> = expression-statement semicolon
 type -> int
 type -> float
 type -> char
-compound-statement -> { statement }
+compound-statement -> { statement 
 selection-statement -> if ( condition ) statement
 condition -> expression-statement condition-temp
 condition-temp -> comparison expression-statement
@@ -46,9 +50,24 @@ comparison -> >
 comparison -> <
 iteration-statement -> while ( condition ) statement
 iteration-statement -> do statement while ( condition ) semicolon 
-iteration-statement -> for ( for-init-statement semicolon condition semicolon labeled-statement ) statement
-for-init-statement -> initialize-statement
-for-init-statement -> labeled-statement
+iteration-statement -> for ( for-init-statement ; condition ; for-process ) statement
+for-init-statement -> type identifier = expression-statement
+for-init-statement -> identifier
+for-process -> identifier steps
+steps -> ++
+steps -> --
+steps -> calculation var
+var -> identifier
+var -> number
 jump-statement -> break semicolon 
 jump-statement -> continue semicolon 
 jump-statement ->  return expression-statement semicolon 
+
+
+//
+int main ( ) { if ( identifier == number ) { int identifier ; identifier += number ; } for ( int identifier = number ; identifier <= number ; identifier ++ ) { identifier = number ; } }
+//
+
+//
+int main ( ) { int identifier = number ; int identifier = number * number ; int identifier ; int identifier = number + number ; int identifier = number ; int identifier = identifier * identifier ; for ( int identifier = number ; identifier < number ; identifier ++ ) { identifier ++ ; } }
+//
