@@ -1,0 +1,51 @@
+statement -> labeled-statement
+statement -> compound-statement
+statement -> selection-statement
+statement -> iteration-statement
+statement -> jump-statement
+labeled-statement -> identifier calculation expression-statement ;
+labeled-statement -> identifier ++ ;
+labeled-statement -> identifier -- ;
+calculation -> =
+calculation -> +=
+calculation -> -=
+calculation -> *=
+calculation -> /=
+calculation -> %=
+operation -> +
+operation -> -
+operation -> *
+operation -> /
+operation -> %
+expression-statement -> number exp-st
+expression-statement -> identifier exp-st
+exp-st -> operation expression-statement exp-st
+exp-st -> ''
+initialize-statement -> type identifier
+initialize-statement -> type identifier = expression-statement
+type -> int
+type -> float
+type -> char
+compound-statement -> { statement-seq }
+statement-seq -> statement temp-statement-seq
+temp-statement-seq -> statement temp-statement-seq
+temp-statement-seq -> ''
+selection-statement -> if ( condition ) statement
+selection-statement -> if ( condition ) statement else statement
+condition -> expression-statement
+condition -> expression-statement comparison expression-statement
+comparison -> ==
+comparison -> >=
+comparison -> <= 
+comparison -> !=
+comparison -> >
+comparison -> <
+iteration-statement -> while ( condition ) statement
+iteration-statement -> do statement while ( condition ) ;
+iteration-statement -> for ( for-init-statement ; condition ; labeled-statement ) statement
+for-init-statement -> expression-statement
+for-init-statement -> initialize-statement
+for-init-statement -> labeled-statement
+jump-statement -> break ;
+jump-statement -> continue ;
+jump-statement ->  return expression-statement ;
