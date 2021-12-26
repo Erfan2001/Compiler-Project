@@ -1,19 +1,19 @@
 import re
 import os
+
 # Input Path
 # inputFile = input("Enter Input Path\n")
 
 # Output Path
 # outputFile = input("Enter Output Path\n")
 
-# Get Value from regex
 
+# Get Value from regex
 
 def finder(arr: list):
     return [x for x in arr if x]
 
 # Remove Comments Function
-
 
 def remove_Comments(fileContent):
     removeMultipleComments = re.sub(
@@ -23,16 +23,16 @@ def remove_Comments(fileContent):
     result = removeSingleComments
     return result
 
-# Remove Spaces Function
 
+# Remove Spaces Function
 
 def removeSpaces(data: str):
     res = data.split("\n")
     res = [x for x in res if x]
     return "\n".join(res)
 
-# Replace Includes
 
+# Replace Includes
 
 def replaceIncludes(data: str):
     res = data.split("\n")
@@ -47,8 +47,8 @@ def replaceIncludes(data: str):
             res[index] += "\n"
     return "".join(res)
 
-# Replace Defines
 
+# Replace Defines
 
 def replaceDefines(data: str):
     res = data.split("\n")
@@ -66,7 +66,7 @@ def replaceDefines(data: str):
     return "".join(res)
 
 
-def errorHandling(data: str):
+#def errorHandling(data: str):
     # Default Value should be 1 for "int main()"
     loopsCount = 1
     parenthesesCount = 0
@@ -101,6 +101,7 @@ def errorHandling(data: str):
 
 
 # Read FileData from Source File
+
 with open("In/test.c") as f:
     fileData = f.read()
 
@@ -113,8 +114,10 @@ result2 = replaceDefines(result)
 # Calling remove Spaces
 result3 = removeSpaces(result2)
 # Calling Error Handling
-result4 = errorHandling(result3)
+#result4 = errorHandling(result3)
+
 # Write In New File
+
 with open("In/new.txt", "w") as f:
     f.write(result3)
 
@@ -128,58 +131,94 @@ punctuationRegex = "\(|\)|\;|\,|\[|\]|\{|\}"
 keyword = ["if", "else", "main", "while", "int",
            "float", "for", "string", "do", "#include"]
 
+
 output: list = []
 
 
 def dfa(str1: str, lineNumber: int):
     begin = 0
-    # str1 = str1.replace(" ", "")
     flag = False
-    for i in range(len(str1)):
 
+    for i in range(len(str1)):
         if(finder(re.findall("^[a-zA-Z_0-9\.]*", str1[i]))):
             continue
+        
         else:
             token = str1[begin:i]
             if(token in keyword):
                 output.append(("keyword", token))
-            elif(finder(re.findall("^[0-9]+[a-df-zA-Z_]+", token))):
+
+            elif(finder(re.findall("^[0-9]+[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
-            elif(finder(re.findall("^[a-zA-Z_0-9]+(\.)+[a-df-zA-Z_]+", token))):
+                
+            elif(finder(re.findall("^[a-zA-Z]+[.]+[a-zA-Z_0-9]*", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
-            elif(finder(re.findall("^[0-9]+", token))):
+
+            elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e][a-zA-Z_]+[a-zA-Z_0-9]*", token))):
+                print("lexical error that happened in line : %d " % lineNumber)
+
+            elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e]$", token))):
+                print("lexical error that happened in line : %d " % lineNumber)
+
+            elif(finder(re.findall("^[0-9]+[.]+[0-9]*[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
+                print("lexical error that happened in line : %d " % lineNumber)
+
+            elif(finder(re.findall("^[0-9]+[.][0-9]+$", token))):
                 output.append(("number", token))
+
+            
+            elif(finder(re.findall("^[0-9]+$", token))):
+                output.append(("number", token))
+
+            elif(finder(re.findall("^[0-9]+[.][0-9]+[e][0-9]+$", token))):
+                output.append(("number", token))
+
+            
+            elif(finder(re.findall("^[0-9]+[e][0-9]+$", token))):
+                output.append(("number", token))
+            
             elif(finder(re.findall("^[a-zA-Z_][a-zA-Z_0-9]*", token))):
                 output.append(("identifier", token))
+
             if(finder(re.findall(punctuationRegex, str1[i]))):
                 output.append(("punctuation", str1[i]))
+
             if(i <= len(str1)-2 and finder(re.findall(comparisonRegex, str1[i]+str1[i+1]))):
                 if(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 2):
                     output.append(("comparison", str1[i]+str1[i+1]))
                     flag = True
+
                 elif(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 1):
                     output.append(("operation", str1[i]))
+                
                 else:
                     flag = False
             if(i <= len(str1)-2 and finder(re.findall(operationRegex, str1[i]+str1[i+1]))):
                 if(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 2):
                     output.append(("operation", str1[i]+str1[i+1]))
                     flag = True
+                
                 elif(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 1):
                     output.append(("operation", str1[i]))
+                
                 else:
                     flag = False
+            
             begin = i+1
 
 
 # Read Lines from Source File
+
 with open("In/new.txt") as f:
     lines = f.readlines()
 lineNumber = 1
+
+
 for i in lines:
     dfa(i, lineNumber)
     lineNumber += 1
 # Write in Output File
+
 with open("out/answer.txt", "w") as f:
     for i in output:
         f.write(i[0])
