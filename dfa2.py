@@ -189,11 +189,11 @@ def dfa(str1: str, lineNumber: int):
                     flag = True
 
                 elif(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 1):
-                    output.append(("operation", str1[i]))
+                    output.append(("comparison", str1[i]))
                 
                 else:
                     flag = False
-            if(i <= len(str1)-2 and finder(re.findall(operationRegex, str1[i]+str1[i+1]))):
+            elif(i <= len(str1)-2 and finder(re.findall(operationRegex, str1[i]+str1[i+1]))):
                 if(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 2):
                     output.append(("operation", str1[i]+str1[i+1]))
                     flag = True
@@ -213,10 +213,23 @@ with open("In/new.txt") as f:
     lines = f.readlines()
 lineNumber = 1
 
+# remove Space between words
 
-for i in lines:
-    dfa(i, lineNumber)
+for i in lines: 
+    lineWords=[] 
+    newArr = i.split(" ") 
+    for i in range(len(newArr)): 
+        if(newArr[i] in keyword ): 
+            lineWords.append(newArr[i]+" ") 
+        elif(newArr[i][0:3]=="for" and newArr[i].split("(")[1] in keyword):
+            lineWords.append(newArr[i]+" ")
+        else: 
+            lineWords.append(newArr[i]) 
+    # print(lineWords)
+    dfa("".join(lineWords), lineNumber) 
     lineNumber += 1
+
+
 # Write in Output File
 
 with open("out/answer.txt", "w") as f:
