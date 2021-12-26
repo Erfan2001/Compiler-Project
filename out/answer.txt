@@ -21,6 +21,10 @@ punctuation:: ;
 keyword:: float
 punctuation:: ;
 keyword:: float
+identifier:: j
+operation:: =
+punctuation:: ;
+keyword:: float
 identifier:: h
 operation:: =
 number:: 5.6566563e65
@@ -29,10 +33,6 @@ keyword:: float
 identifier:: a
 operation:: =
 number:: 56566563e65
-punctuation:: ;
-keyword:: float
-identifier:: j
-operation:: =
 punctuation:: ;
 keyword:: int
 identifier:: c
