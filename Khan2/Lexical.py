@@ -18,7 +18,7 @@ from Khan1.PreProcessing import PreProcess
 def finder(arr: list):
     return [x for x in arr if x]
 
-
+# Run Khan1
 PreProcess()
 
 
@@ -32,7 +32,7 @@ punctuationRegex = "\(|\)|\;|\,|\[|\]|\{|\}"
 keyword = ["if", "else", "main", "while", "int",
            "float", "for", "string", "do", "#include"]
 
-
+# Tokens saved in output list
 output: list = []
 
 
@@ -49,31 +49,40 @@ def dfa(str1: str, lineNumber: int):
 
             if(token in keyword):
                 output.append(("keyword", token))
-
+            
+            #Identifier startWith number
             elif(finder(re.findall("^[0-9]+[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
 
+            #Identifier + dot
             elif(finder(re.findall("^[a-zA-Z]+[.]+[a-zA-Z_0-9]*", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
 
+            #9.9eq2 => Error
             elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e][a-zA-Z_]+[a-zA-Z_0-9]*", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
 
+            #9.9e => Error
             elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e]$", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
 
+            #9.9a => Error
             elif(finder(re.findall("^[0-9]+[.]+[0-9]*[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
                 print("lexical error that happened in line : %d " % lineNumber)
 
+            #9.9
             elif(finder(re.findall("^[0-9]+[.][0-9]+$", token))):
                 output.append(("number", token))
 
+            #99
             elif(finder(re.findall("^[0-9]+$", token))):
                 output.append(("number", token))
 
+            #9.9e9
             elif(finder(re.findall("^[0-9]+[.][0-9]+[e][0-9]+$", token))):
                 output.append(("number", token))
 
+            #9e223
             elif(finder(re.findall("^[0-9]+[e][0-9]+$", token))):
                 output.append(("number", token))
 

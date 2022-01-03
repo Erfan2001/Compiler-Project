@@ -1,0 +1,92 @@
+digraph {
+	Tree [label=Tree]
+	mainStatement [label=mainStatement]
+	Tree -> mainStatement
+	mainStatement [label=mainStatement]
+	statement [label=statement]
+	mainStatement -> statement
+	"{" [label="{"]
+	mainStatement -> "{"
+	")" [label=")"]
+	mainStatement -> ")"
+	"(" [label="("]
+	mainStatement -> "("
+	main [label=main]
+	mainStatement -> main
+	int [label=int]
+	mainStatement -> int
+	statement [label=statement]
+	"initialize-statement" [label="initialize-statement"]
+	statement -> "initialize-statement"
+	"initialize-statement" [label="initialize-statement"]
+	"initialize-statement-temp" [label="initialize-statement-temp"]
+	"initialize-statement" -> "initialize-statement-temp"
+	identifier [label=identifier]
+	"initialize-statement" -> identifier
+	type [label=type]
+	"initialize-statement" -> type
+	type [label=type]
+	int [label=int]
+	type -> int
+	"initialize-statement-temp" [label="initialize-statement-temp"]
+	semicolon [label=semicolon]
+	"initialize-statement-temp" -> semicolon
+	"expression-statement" [label="expression-statement"]
+	"initialize-statement-temp" -> "expression-statement"
+	"=" [label="="]
+	"initialize-statement-temp" -> "="
+	"expression-statement" [label="expression-statement"]
+	"exp-st" [label="exp-st"]
+	"expression-statement" -> "exp-st"
+	number [label=number]
+	"expression-statement" -> number
+	"exp-st" -> Epsilon
+	semicolon [label=semicolon]
+	"semicolon-temp" [label="semicolon-temp"]
+	semicolon -> "semicolon-temp"
+	";" [label=";"]
+	semicolon -> ";"
+	"semicolon-temp" [label="semicolon-temp"]
+	statement [label=statement]
+	"semicolon-temp" -> statement
+	statement [label=statement]
+	"initialize-statement" [label="initialize-statement"]
+	statement -> "initialize-statement"
+	"initialize-statement" [label="initialize-statement"]
+	"initialize-statement-temp" [label="initialize-statement-temp"]
+	"initialize-statement" -> "initialize-statement-temp"
+	identifier [label=identifier]
+	"initialize-statement" -> identifier
+	type [label=type]
+	"initialize-statement" -> type
+	type [label=type]
+	float [label=float]
+	type -> float
+	"initialize-statement-temp" [label="initialize-statement-temp"]
+	semicolon [label=semicolon]
+	"initialize-statement-temp" -> semicolon
+	"expression-statement" [label="expression-statement"]
+	"initialize-statement-temp" -> "expression-statement"
+	"=" [label="="]
+	"initialize-statement-temp" -> "="
+	"expression-statement" [label="expression-statement"]
+	"exp-st" [label="exp-st"]
+	"expression-statement" -> "exp-st"
+	number [label=number]
+	"expression-statement" -> number
+	"exp-st" -> Epsilon
+	semicolon [label=semicolon]
+	"semicolon-temp" [label="semicolon-temp"]
+	semicolon -> "semicolon-temp"
+	";" [label=";"]
+	semicolon -> ";"
+	"semicolon-temp" [label="semicolon-temp"]
+	brace [label=brace]
+	"semicolon-temp" -> brace
+	brace [label=brace]
+	"brace-temp" [label="brace-temp"]
+	brace -> "brace-temp"
+	"}" [label="}"]
+	brace -> "}"
+	"brace-temp" -> Epsilon
+}

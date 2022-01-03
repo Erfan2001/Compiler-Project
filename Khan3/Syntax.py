@@ -1,3 +1,8 @@
+import graphviz
+import os
+os.environ["PATH"] += os.pathsep + 'C:\Program Files (x86)\Graphviz2.38\\bin'
+import random
+
 ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initialize-statement", "semicolon-temp": "statement", "brace-temp": "statement", "initialize-statement": "type identifier initialize-statement-temp", "type": "int", "for-init-statement": "type identifier = expression-statement", },
        ")": {"exp-st": "epsilon", "condition-temp": "epsilon"},
        "{": {"statement": "compound-statement", "semicolon-temp": "statement", "brace-temp": "statement", "compound-statement": "{ statement"},
@@ -38,7 +43,8 @@ ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initia
 
 
 pairs = []
-
+dot = graphviz.Digraph()
+stackProccess=[]
 with open("./out/answer.txt") as f:
     content = f.readlines()
 
@@ -60,25 +66,44 @@ buffer.append("$")
 stack = ['$']
 stack.append("mainStatement")
 bufferIterator = 0
-
+flag1 = False
+flag2 = False
+dot.node('Tree', 'Tree')
+dot.node('mainStatement', 'mainStatement')
+dot.edge('Tree', 'mainStatement')
 while(stack[-1] != '$'):
     top = stack[-1]
     if(top == buffer[bufferIterator]):
         bufferIterator += 1
         stack.pop()
+        flag1 = True
         continue
 
     else:
-        if(ll1[buffer[bufferIterator]][top] == "epsilon"):
-            stack.pop()
-            continue
-
+        try:
+            if(ll1[buffer[bufferIterator]][top] == "epsilon"):
+                x = stack.pop()
+                dot.edge(x, 'Epsilon')
+                continue
+        except KeyError as e:
+            raise Exception('Syntax Error : {}'.format(e)) from None
+        flag2 = True
         non_space = ll1[buffer[bufferIterator]][top].split()
         non_space.reverse()
-        stack.pop()
-
+        parent = stack.pop()
+        dot.node(parent, parent) 
         for word in non_space:
+            dot.node(word, word)
+            dot.edge(parent, word)
             stack.append(word)
-        print(stack)
-
-print(stack)
+        # print(stack)
+        stackProccess.append(stack.copy())
+    if(not flag1 and not flag2):
+        raise Exception('Syntax Error : {}'.format(e)) from None
+stackProccess.append(stack.copy())
+content=""
+for item in stackProccess:
+    content+=" ".join(item)+"\n"
+with open("out/ParseTree/StackProccess.txt","w") as f:
+    f.write(content)
+dot.render('out/ParseTree/ParseTree.gv', view=True)
