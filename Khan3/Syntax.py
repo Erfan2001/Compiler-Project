@@ -1,8 +1,6 @@
 import graphviz
 import os
 os.environ["PATH"] += os.pathsep + 'C:\Program Files (x86)\Graphviz2.38\\bin'
-import random
-
 ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initialize-statement", "semicolon-temp": "statement", "brace-temp": "statement", "initialize-statement": "type identifier initialize-statement-temp", "type": "int", "for-init-statement": "type identifier = expression-statement", },
        ")": {"exp-st": "epsilon", "condition-temp": "epsilon"},
        "{": {"statement": "compound-statement", "semicolon-temp": "statement", "brace-temp": "statement", "compound-statement": "{ statement"},
@@ -44,7 +42,9 @@ ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initia
 
 pairs = []
 dot = graphviz.Digraph()
-stackProccess=[]
+stackProccess = []
+counter = 0
+epsilonCounter=-100
 with open("./out/answer.txt") as f:
     content = f.readlines()
 
@@ -63,16 +63,19 @@ for item in pairs:
         buffer.append(item[1])
 
 buffer.append("$")
-stack = ['$']
-stack.append("mainStatement")
+stack = [('$', counter)]
+counter += 1
+stack.append(("mainStatement", counter))
+counter += 1
 bufferIterator = 0
 flag1 = False
 flag2 = False
 dot.node('Tree', 'Tree')
-dot.node('mainStatement', 'mainStatement')
-dot.edge('Tree', 'mainStatement')
-while(stack[-1] != '$'):
+dot.node(str(1), 'mainStatement')
+dot.edge('Tree', str(1))
+while(stack[-1][0] != '$'):
     top = stack[-1]
+    top=top[0]
     if(top == buffer[bufferIterator]):
         bufferIterator += 1
         stack.pop()
@@ -83,7 +86,9 @@ while(stack[-1] != '$'):
         try:
             if(ll1[buffer[bufferIterator]][top] == "epsilon"):
                 x = stack.pop()
-                dot.edge(x, 'Epsilon')
+                dot.node(str(epsilonCounter), 'Epsilon')
+                dot.edge(str(x[1]), str(epsilonCounter))
+                epsilonCounter+=1
                 continue
         except KeyError as e:
             raise Exception('Syntax Error : {}'.format(e)) from None
@@ -91,19 +96,23 @@ while(stack[-1] != '$'):
         non_space = ll1[buffer[bufferIterator]][top].split()
         non_space.reverse()
         parent = stack.pop()
-        dot.node(parent, parent) 
+        if parent!="mainStatement":
+            dot.node(str(parent[1]), parent[0]) 
         for word in non_space:
-            dot.node(word, word)
-            dot.edge(parent, word)
-            stack.append(word)
-        # print(stack)
+            dot.node(str(counter), word)
+            dot.edge(str(parent[1]), str(counter))
+            stack.append((word,counter))
+            counter+=1
         stackProccess.append(stack.copy())
     if(not flag1 and not flag2):
         raise Exception('Syntax Error : {}'.format(e)) from None
 stackProccess.append(stack.copy())
 content=""
 for item in stackProccess:
-    content+=" ".join(item)+"\n"
+    arr=[]
+    for tupleItems in item:
+        arr.append(tupleItems[0])
+    content+=" ".join(arr)+"\n"
 with open("out/ParseTree/StackProccess.txt","w") as f:
     f.write(content)
 dot.render('out/ParseTree/ParseTree.gv', view=True)
