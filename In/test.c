@@ -2,7 +2,6 @@
 #define start int main()
 start
 {
-//im writing c compiler
-seta;
-float b=5;
+int a=2;    
+w=a+b;
 }

@@ -6,11 +6,12 @@ punctuation:: {
 keyword:: int
 identifier:: a
 operation:: =
-number:: 3
+number:: 2
 punctuation:: ;
-keyword:: float
-identifier:: b
+identifier:: w
 operation:: =
-number:: 5
+identifier:: a
+operation:: +
+identifier:: b
 punctuation:: ;
 punctuation:: }

@@ -16,80 +16,56 @@ digraph {
 	7 [label=int]
 	1 -> 7
 	2 [label=statement]
-	8 [label="initialize-statement"]
+	8 [label="labeled-statement"]
 	2 -> 8
-	8 [label="initialize-statement"]
-	9 [label="initialize-statement-temp"]
+	8 [label="labeled-statement"]
+	9 [label="labeled-statement-temp"]
 	8 -> 9
 	10 [label=identifier]
 	8 -> 10
-	11 [label=type]
-	8 -> 11
-	11 [label=type]
-	12 [label=int]
-	11 -> 12
-	9 [label="initialize-statement-temp"]
-	13 [label=semicolon]
+	9 [label="labeled-statement-temp"]
+	11 [label=semicolon]
+	9 -> 11
+	12 [label="expression-statement"]
+	9 -> 12
+	13 [label=calculation]
 	9 -> 13
-	14 [label="expression-statement"]
-	9 -> 14
-	15 [label="="]
-	9 -> 15
-	14 [label="expression-statement"]
-	16 [label="exp-st"]
-	14 -> 16
-	17 [label=number]
-	14 -> 17
+	13 [label=calculation]
+	14 [label="="]
+	13 -> 14
+	12 [label="expression-statement"]
+	15 [label="exp-st"]
+	12 -> 15
+	16 [label=identifier]
+	12 -> 16
+	15 [label="exp-st"]
+	17 [label="expression-statement"]
+	15 -> 17
+	18 [label=operation]
+	15 -> 18
+	18 [label=operation]
+	19 [label="+"]
+	18 -> 19
+	17 [label="expression-statement"]
+	20 [label="exp-st"]
+	17 -> 20
+	21 [label=identifier]
+	17 -> 21
 	-100 [label=Epsilon]
-	16 -> -100
-	13 [label=semicolon]
-	18 [label="semicolon-temp"]
-	13 -> 18
-	19 [label=";"]
-	13 -> 19
-	18 [label="semicolon-temp"]
-	20 [label=statement]
-	18 -> 20
-	20 [label=statement]
-	21 [label="initialize-statement"]
-	20 -> 21
-	21 [label="initialize-statement"]
-	22 [label="initialize-statement-temp"]
-	21 -> 22
-	23 [label=identifier]
-	21 -> 23
-	24 [label=type]
-	21 -> 24
-	24 [label=type]
-	25 [label=float]
+	20 -> -100
+	11 [label=semicolon]
+	22 [label="semicolon-temp"]
+	11 -> 22
+	23 [label=";"]
+	11 -> 23
+	22 [label="semicolon-temp"]
+	24 [label=brace]
+	22 -> 24
+	24 [label=brace]
+	25 [label="brace-temp"]
 	24 -> 25
-	22 [label="initialize-statement-temp"]
-	26 [label=semicolon]
-	22 -> 26
-	27 [label="expression-statement"]
-	22 -> 27
-	28 [label="="]
-	22 -> 28
-	27 [label="expression-statement"]
-	29 [label="exp-st"]
-	27 -> 29
-	30 [label=number]
-	27 -> 30
+	26 [label="}"]
+	24 -> 26
 	-99 [label=Epsilon]
-	29 -> -99
-	26 [label=semicolon]
-	31 [label="semicolon-temp"]
-	26 -> 31
-	32 [label=";"]
-	26 -> 32
-	31 [label="semicolon-temp"]
-	33 [label=brace]
-	31 -> 33
-	33 [label=brace]
-	34 [label="brace-temp"]
-	33 -> 34
-	35 [label="}"]
-	33 -> 35
-	-98 [label=Epsilon]
-	34 -> -98
+	25 -> -99
 }

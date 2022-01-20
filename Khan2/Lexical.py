@@ -29,7 +29,7 @@ comparisonRegex = "[\<|\>|\=|\!]+[\=]|[\<]|[\>]"
 # Punctuation Regex
 punctuationRegex = "\(|\)|\;|\,|\[|\]|\{|\}"
 # Keywords
-keyword = ["if", "else", "main", "while", "int",
+keyword = ["if", "else", "main", "while", "int","char",
            "float", "for", "string", "do", "#include"]
 
 # Tokens saved in output list
@@ -46,72 +46,74 @@ def dfa(str1: str, lineNumber: int):
 
         else:
             token = str1[begin:i]
+            if((str1[begin-1]=='"' and str1[i]=='"') or (str1[begin-1]=="'" and str1[i]=="'")):
+                output.append(("number",token))
+            else:
+                if(token in keyword):
+                    output.append(("keyword", token))
+                
+                #Identifier startWith number
+                elif(finder(re.findall("^[0-9]+[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
+                    print("lexical error that happened in line : %d " % lineNumber)
 
-            if(token in keyword):
-                output.append(("keyword", token))
-            
-            #Identifier startWith number
-            elif(finder(re.findall("^[0-9]+[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
-                print("lexical error that happened in line : %d " % lineNumber)
+                #Identifier + dot
+                elif(finder(re.findall("^[a-zA-Z]+[.]+[a-zA-Z_0-9]*", token))):
+                    print("lexical error that happened in line : %d " % lineNumber)
 
-            #Identifier + dot
-            elif(finder(re.findall("^[a-zA-Z]+[.]+[a-zA-Z_0-9]*", token))):
-                print("lexical error that happened in line : %d " % lineNumber)
+                #9.9eq2 => Error
+                elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e][a-zA-Z_]+[a-zA-Z_0-9]*", token))):
+                    print("lexical error that happened in line : %d " % lineNumber)
 
-            #9.9eq2 => Error
-            elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e][a-zA-Z_]+[a-zA-Z_0-9]*", token))):
-                print("lexical error that happened in line : %d " % lineNumber)
+                #9.9e => Error
+                elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e]$", token))):
+                    print("lexical error that happened in line : %d " % lineNumber)
 
-            #9.9e => Error
-            elif(finder(re.findall("^[0-9]+[.]+[0-9]*[e]$", token))):
-                print("lexical error that happened in line : %d " % lineNumber)
+                #9.9a => Error
+                elif(finder(re.findall("^[0-9]+[.]+[0-9]*[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
+                    print("lexical error that happened in line : %d " % lineNumber)
 
-            #9.9a => Error
-            elif(finder(re.findall("^[0-9]+[.]+[0-9]*[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
-                print("lexical error that happened in line : %d " % lineNumber)
+                #9.9
+                elif(finder(re.findall("^[0-9]+[.][0-9]+$", token))):
+                    output.append(("number", token))
 
-            #9.9
-            elif(finder(re.findall("^[0-9]+[.][0-9]+$", token))):
-                output.append(("number", token))
+                #99
+                elif(finder(re.findall("^[0-9]+$", token))):
+                    output.append(("number", token))
 
-            #99
-            elif(finder(re.findall("^[0-9]+$", token))):
-                output.append(("number", token))
+                #9.9e9
+                elif(finder(re.findall("^[0-9]+[.][0-9]+[e][0-9]+$", token))):
+                    output.append(("number", token))
 
-            #9.9e9
-            elif(finder(re.findall("^[0-9]+[.][0-9]+[e][0-9]+$", token))):
-                output.append(("number", token))
+                #9e223
+                elif(finder(re.findall("^[0-9]+[e][0-9]+$", token))):
+                    output.append(("number", token))
 
-            #9e223
-            elif(finder(re.findall("^[0-9]+[e][0-9]+$", token))):
-                output.append(("number", token))
+                elif(finder(re.findall("^[a-zA-Z_][a-zA-Z_0-9]*", token))):
+                    output.append(("identifier", token))
 
-            elif(finder(re.findall("^[a-zA-Z_][a-zA-Z_0-9]*", token))):
-                output.append(("identifier", token))
+                if(finder(re.findall(punctuationRegex, str1[i]))):
+                    output.append(("punctuation", str1[i]))
 
-            if(finder(re.findall(punctuationRegex, str1[i]))):
-                output.append(("punctuation", str1[i]))
+                if(i <= len(str1)-2 and finder(re.findall(comparisonRegex, str1[i]+str1[i+1]))):
+                    if(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 2):
+                        output.append(("comparison", str1[i]+str1[i+1]))
+                        flag = True
 
-            if(i <= len(str1)-2 and finder(re.findall(comparisonRegex, str1[i]+str1[i+1]))):
-                if(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 2):
-                    output.append(("comparison", str1[i]+str1[i+1]))
-                    flag = True
+                    elif(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 1):
+                        output.append(("comparison", str1[i]))
 
-                elif(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 1):
-                    output.append(("comparison", str1[i]))
+                    else:
+                        flag = False
+                elif(i <= len(str1)-2 and finder(re.findall(operationRegex, str1[i]+str1[i+1]))):
+                    if(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 2):
+                        output.append(("operation", str1[i]+str1[i+1]))
+                        flag = True
 
-                else:
-                    flag = False
-            elif(i <= len(str1)-2 and finder(re.findall(operationRegex, str1[i]+str1[i+1]))):
-                if(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 2):
-                    output.append(("operation", str1[i]+str1[i+1]))
-                    flag = True
+                    elif(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 1):
+                        output.append(("operation", str1[i]))
 
-                elif(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 1):
-                    output.append(("operation", str1[i]))
-
-                else:
-                    flag = False
+                    else:
+                        flag = False
 
             begin = i+1
 

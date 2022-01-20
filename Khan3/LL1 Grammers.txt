@@ -12,8 +12,8 @@ brace -> } brace-temp
 brace-temp -> statement
 brace-temp -> }
 brace-temp -> ''
-labeled-statement -> identifier labeled-statement-temp
-labeled-statement-temp -> calculation expression-statement semicolon
+labeled-statement -> identifier labeled-statement-temp {labeled-statement-temp.value=identifier.value}
+labeled-statement-temp -> calculation expression-statement semicolon {labeled-statement-temp.value=expression-statement.value}
 labeled-statement-temp -> ++ semicolon 
 labeled-statement-temp -> -- semicolon 
 calculation -> =
@@ -29,6 +29,7 @@ operation -> /
 operation -> %
 expression-statement -> number exp-st
 expression-statement -> identifier exp-st
+expression-statement -> char exp-st
 exp-st -> ''
 exp-st -> operation expression-statement
 initialize-statement -> type identifier initialize-statement-temp
