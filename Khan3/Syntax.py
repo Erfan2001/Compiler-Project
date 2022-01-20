@@ -1,5 +1,6 @@
 import graphviz
 import os
+import re
 os.environ["PATH"] += os.pathsep + 'C:\Program Files (x86)\Graphviz2.38\\bin'
 ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initialize-statement", "semicolon-temp": "statement", "brace-temp": "statement", "initialize-statement": "type identifier initialize-statement-temp", "type": "int", "for-init-statement": "type identifier = expression-statement", },
        ")": {"exp-st": "epsilon", "condition-temp": "epsilon"},
@@ -39,12 +40,12 @@ ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initia
        "$": {"brace-temp": "epsilon"}
        }
 
-
+operationRegex = "[\+|\-|\*|\/|\%]+[\=]|[\+]+[\+]|[\-]+[\-]|[\+|\-|\*|\/|\%]|[\=]"
 pairs = []
 dot = graphviz.Digraph()
 stackProccess = []
 counter = 0
-epsilonCounter=-100
+epsilonCounter = -100
 with open("./out/answer.txt") as f:
     content = f.readlines()
 
@@ -54,15 +55,19 @@ for line in content:
     pairs.append((splittedLine[0], splittedLine[1][:-1]))
 
 buffer = []
-
-for item in pairs:
-    if item[0] == "identifier" or item[0] == "number":
-        buffer.append(item[0])
-
+flagger = False
+for index in range(len(pairs)):
+    if pairs[index][0] == "identifier" or pairs[index][0] == "number":
+        buffer.append((pairs[index][0], pairs[index][1]))
+    elif pairs[index][0] == "operation" or pairs[index][0] == "comparison":
+        buffer.append((pairs[index][1], pairs[index][1]))
+    elif pairs[index][0] == "keyword" and pairs[index][1] in ["int", "float", "char"] and flagger:
+        buffer.append((pairs[index][1], pairs[index+1][1]))
     else:
-        buffer.append(item[1])
+        flagger = True
+        buffer.append((pairs[index][1], None))
 
-buffer.append("$")
+buffer.append(("$", None))
 stack = [('$', counter)]
 counter += 1
 stack.append(("mainStatement", counter))
@@ -73,11 +78,11 @@ flag2 = False
 dot.node('Tree', 'Tree')
 dot.node(str(1), 'mainStatement')
 dot.edge('Tree', str(1))
-test=[]
+inOrderTraversal = []
 while(stack[-1][0] != '$'):
     top = stack[-1]
-    top=top[0]
-    if(top == buffer[bufferIterator]):
+    top = top[0]
+    if(top == buffer[bufferIterator][0]):
         bufferIterator += 1
         stack.pop()
         flag1 = True
@@ -85,38 +90,39 @@ while(stack[-1][0] != '$'):
 
     else:
         try:
-            if(ll1[buffer[bufferIterator]][top] == "epsilon"):
+            if(ll1[buffer[bufferIterator][0]][top] == "epsilon"):
                 x = stack.pop()
                 dot.node(str(epsilonCounter), 'Epsilon')
                 dot.edge(str(x[1]), str(epsilonCounter))
-                epsilonCounter+=1
+                epsilonCounter += 1
                 continue
         except KeyError as e:
             raise Exception('Syntax Error : {}'.format(e)) from None
         flag2 = True
-        non_space = ll1[buffer[bufferIterator]][top].split()
+        non_space = ll1[buffer[bufferIterator][0]][top].split()
         non_space.reverse()
         parent = stack.pop()
-        if parent!="mainStatement":
-            dot.node(str(parent[1]), parent[0]) 
+        if parent != "mainStatement":
+            dot.node(str(parent[1]), parent[0])
         for word in non_space:
             dot.node(str(counter), word)
-            if(word=="identifier"or word=="=" or word=="+"or word=="number"):
-                test.append(word)
+            if((word == "identifier" or word == "operation" or word == "number" or word == "calculation")):
+                inOrderTraversal.append((word, buffer[bufferIterator][1]))
             dot.edge(str(parent[1]), str(counter))
-            stack.append((word,counter))
-            counter+=1
+            stack.append((word, counter))
+            counter += 1
         stackProccess.append(stack.copy())
     if(not flag1 and not flag2):
         raise Exception('Syntax Error : {}'.format(e)) from None
 stackProccess.append(stack.copy())
-content=""
+content = ""
 for item in stackProccess:
-    arr=[]
+    arr = []
     for tupleItems in item:
         arr.append(tupleItems[0])
-    content+=" ".join(arr)+"\n"
-with open("out/ParseTree/StackProccess.txt","w") as f:
+    content += " ".join(arr)+"\n"
+with open("out/ParseTree/StackProccess.txt", "w") as f:
     f.write(content)
 # dot.render('out/ParseTree/ParseTree.gv', view=True)
-print(test)
+with open ("out/new.txt","w") as f:
+    f.write("%s"%inOrderTraversal)
