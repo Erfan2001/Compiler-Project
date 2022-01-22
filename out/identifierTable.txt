@@ -1,4 +1,0 @@
-int a
-int w
-char s
-int i

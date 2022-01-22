@@ -5,55 +5,6 @@ $ initialize-statement-temp identifier int
 $ semicolon expression-statement =
 $ semicolon exp-st number
 $ semicolon-temp ;
-$ statement
-$ initialize-statement
-$ initialize-statement-temp identifier type
-$ initialize-statement-temp identifier int
-$ semicolon expression-statement =
-$ semicolon exp-st number
-$ semicolon-temp ;
-$ statement
-$ initialize-statement
-$ initialize-statement-temp identifier type
-$ initialize-statement-temp identifier char
-$ semicolon expression-statement =
-$ semicolon exp-st number
-$ semicolon-temp ;
-$ statement
-$ labeled-statement
-$ labeled-statement-temp identifier
-$ semicolon expression-statement calculation
-$ semicolon expression-statement =
-$ semicolon exp-st identifier
-$ semicolon expression-statement operation
-$ semicolon expression-statement +
-$ semicolon exp-st number
-$ semicolon-temp ;
-$ statement
-$ iteration-statement
-$ statement ) for-process ; condition ; for-init-statement ( for
-$ statement ) for-process ; condition ; expression-statement = identifier type
-$ statement ) for-process ; condition ; expression-statement = identifier int
-$ statement ) for-process ; condition ; exp-st number
-$ statement ) for-process ; condition-temp expression-statement
-$ statement ) for-process ; condition-temp exp-st identifier
-$ statement ) for-process ; expression-statement comparison
-$ statement ) for-process ; expression-statement <
-$ statement ) for-process ; exp-st number
-$ statement ) steps identifier
-$ statement ) ++
-$ compound-statement
-$ statement {
-$ labeled-statement
-$ labeled-statement-temp identifier
-$ semicolon expression-statement calculation
-$ semicolon expression-statement =
-$ semicolon exp-st identifier
-$ semicolon expression-statement operation
-$ semicolon expression-statement +
-$ semicolon exp-st number
-$ semicolon-temp ;
 $ brace
 $ brace-temp }
-$ }
 $

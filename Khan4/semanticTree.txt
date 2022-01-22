@@ -1,0 +1,4 @@
+int b = 2
+int c = 3
+char s = ali
+b = c + 2 

@@ -14,5 +14,5 @@ def makeSemanticTable():
     writeContent=""
     for i in range(len(identifierTable)):
         writeContent+="%s %s\n"%(identifierTable[i][0],identifierTable[i][1])
-    with open("out/identifierTable.txt","w") as f:
+    with open("Khan4/semanticTable.txt","w") as f:
         f.write(writeContent)

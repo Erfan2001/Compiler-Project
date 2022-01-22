@@ -1,6 +1,20 @@
 import graphviz
 import os
 import re
+
+
+class Node:  # add by amin
+
+    def __init__(self, value):  # add by amin
+        self.value = value
+        self.child = []
+
+
+def newNode(value):  # add by amin
+    tmp = Node(value)
+    return tmp
+
+
 os.environ["PATH"] += os.pathsep + 'C:\Program Files (x86)\Graphviz2.38\\bin'
 ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initialize-statement", "semicolon-temp": "statement", "brace-temp": "statement", "initialize-statement": "type identifier initialize-statement-temp", "type": "int", "for-init-statement": "type identifier = expression-statement", },
        ")": {"exp-st": "epsilon", "condition-temp": "epsilon"},
@@ -46,26 +60,26 @@ dot = graphviz.Digraph()
 stackProccess = []
 counter = 0
 epsilonCounter = -100
-with open("./out/answer.txt") as f:
+with open("Khan2/linesNumber.txt") as f:
     content = f.readlines()
 
 
 for line in content:
     splittedLine = line.split(":: ")
-    pairs.append((splittedLine[0], splittedLine[1][:-1]))
+    pairs.append((splittedLine[0], splittedLine[1], splittedLine[2][:-1]))
 
 buffer = []
 flagger = False
 for index in range(len(pairs)):
     if pairs[index][0] == "identifier" or pairs[index][0] == "number":
-        buffer.append((pairs[index][0], pairs[index][1]))
+        buffer.append((pairs[index][0], pairs[index][1], pairs[index][2]))
     elif pairs[index][0] == "operation" or pairs[index][0] == "comparison":
-        buffer.append((pairs[index][1], pairs[index][1]))
+        buffer.append((pairs[index][1], pairs[index][1], pairs[index][2]))
     elif pairs[index][0] == "keyword" and pairs[index][1] in ["int", "float", "char"] and flagger:
-        buffer.append((pairs[index][1], pairs[index+1][1]))
+        buffer.append((pairs[index][1], pairs[index+1][1], pairs[index][2]))
     else:
         flagger = True
-        buffer.append((pairs[index][1], None))
+        buffer.append((pairs[index][1], None, None))
 
 buffer.append(("$", None))
 stack = [('$', counter)]
@@ -104,16 +118,29 @@ while(stack[-1][0] != '$'):
         parent = stack.pop()
         if parent != "mainStatement":
             dot.node(str(parent[1]), parent[0])
+            root = newNode(parent[0])  # add by amin
+            if parent[0] == "mainStatement":
+                finalTree = root
+            # print(root.value, "root")                    #deleteeeeee
         for word in non_space:
             dot.node(str(counter), word)
-            if((word == "identifier" or word == "operation" or word == "number" or word == "calculation")):
-                inOrderTraversal.append((word, buffer[bufferIterator][1]))
+            root.child.append(newNode(word))  # add by amin
+            if((word == "identifier" or word == "operation" or word == "number" or word == "calculation" or word == "comparison")):
+                inOrderTraversal.append(
+                    (word, buffer[bufferIterator][1], buffer[bufferIterator][2]))
             dot.edge(str(parent[1]), str(counter))
             stack.append((word, counter))
             counter += 1
+        # for item in root.child:                          #deleteeeeee
+        # print(item.value, "child")                   #deleteeeeee
         stackProccess.append(stack.copy())
     if(not flag1 and not flag2):
         raise Exception('Syntax Error : {}'.format(e)) from None
+
+
+def returnSyntaxTree():
+    return finalTree
+
 stackProccess.append(stack.copy())
 content = ""
 for item in stackProccess:
@@ -124,5 +151,5 @@ for item in stackProccess:
 with open("out/ParseTree/StackProccess.txt", "w") as f:
     f.write(content)
 # dot.render('out/ParseTree/ParseTree.gv', view=True)
-with open ("out/new.txt","w") as f:
-    f.write("%s"%inOrderTraversal)
+with open("Khan3/inOrderTraversal.txt", "w") as f:
+    f.write("%s" % inOrderTraversal)
