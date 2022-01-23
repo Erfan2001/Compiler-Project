@@ -59,6 +59,9 @@ dot = graphviz.Digraph()
 stackProccess = []
 counter = 0
 epsilonCounter = -100
+
+
+# Read From Lexical Output
 with open("Khan2/linesNumber.txt") as f:
     content = f.readlines()
 
@@ -66,6 +69,7 @@ with open("Khan2/linesNumber.txt") as f:
 for line in content:
     splittedLine = line.split(":: ")
     pairs.append((splittedLine[0], splittedLine[1], splittedLine[2][:-1]))
+
 
 buffer = []
 flagger = False
@@ -80,6 +84,7 @@ for index in range(len(pairs)):
         flagger = True
         buffer.append((pairs[index][1], None, None))
 
+
 buffer.append(("$", None))
 stack = [('$', counter)]
 counter += 1
@@ -92,6 +97,9 @@ dot.node('Tree', 'Tree')
 dot.node(str(1), 'mainStatement')
 dot.edge('Tree', str(1))
 inOrderTraversal = []
+
+
+#Stack of ParseTree
 while(stack[-1][0] != '$'):
     top = stack[-1]
     top = top[0]
@@ -115,11 +123,13 @@ while(stack[-1][0] != '$'):
         non_space = ll1[buffer[bufferIterator][0]][top].split()
         non_space.reverse()
         parent = stack.pop()
+
         if parent != "mainStatement":
             dot.node(str(parent[1]), parent[0])
             root = newNode(parent[0]) 
             if parent[0] == "mainStatement":
                 finalTree = root
+
         for word in non_space:
             dot.node(str(counter), word)
             root.child.append(newNode(word)) 
@@ -137,15 +147,20 @@ while(stack[-1][0] != '$'):
 def returnSyntaxTree():
     return finalTree
 
+
 stackProccess.append(stack.copy())
 content = ""
+
 for item in stackProccess:
     arr = []
     for tupleItems in item:
         arr.append(tupleItems[0])
     content += " ".join(arr)+"\n"
+
+#Draw Graph
 with open("out/ParseTree/StackProccess.txt", "w") as f:
     f.write(content)
 dot.render('out/ParseTree/ParseTree.gv', view=False)
+
 with open("Khan3/inOrderTraversal.txt", "w") as f:
     f.write("%s" % inOrderTraversal)

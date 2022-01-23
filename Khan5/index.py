@@ -5,14 +5,21 @@ from Khan5.registerTable import makeRegisterTable
 
 makeRegisterTable()
 
+
+# Read SemanticTree
+
 with open("Khan4\semanticTree.txt") as f:
     content = f.readlines()
 
+
+# Read register Table
 with open("Khan5\\registerTable.txt") as f:
     lines = f.readlines()
 
+
 result = lines
 codeGenerationOutput = []
+
 for item in content:
     if("+" in item or "-" in item or "/" in item or "*" in item):
         items = item[:-1].split("=")[1].split(" ")
@@ -50,6 +57,9 @@ for item in content:
                     line[:-1].split(" ")[0], line[:-1].split(" ")[1], item[:-1].split("=")[1].split(" ")[1])
                 with open("Khan5\\registerTable.txt", "w") as f:
                     f.write("".join(result))
+
+
+# Write in CodeGeneration
 
 with open("out/codeGeneration.txt","w") as f:
     f.write("\n".join(codeGenerationOutput))

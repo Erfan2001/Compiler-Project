@@ -3,7 +3,6 @@ from semanticTable import makeSemanticTable
 import re
 
 makeSemanticTable()
-
 inOrderTraversal = []
 
 # ParseTree = Syntax()
@@ -15,14 +14,20 @@ inOrderTraversal = []
 
 # inorderTraversal(ParseTree)
 
+
+
+#Read From Syntax Table
+
 with open("Khan4/semanticTable.txt") as f:
     identifierTable = f.readlines()
 
 with open("Khan3/inOrderTraversal.txt") as f:
     inOrderTraversal = literal_eval(f.read())
 
+
 sepratedSyntaxTree = []
 begin = 0
+
 
 for index in range(len(inOrderTraversal)):
     if index < len(inOrderTraversal)-2 and inOrderTraversal[index][0] in ["identifier", "number"] and inOrderTraversal[index+1][0] in ["identifier"]:
@@ -60,6 +65,7 @@ for index in range(len(sepratedSyntaxTree)):
         syntaxTable+=":: %s"%sepratedSyntaxTree[index][j][2]
         syntaxTable += "\n"
 
+
 lines=syntaxTable.split("\n")
 for index in range(len(lines)):
     if(("char" in lines[index] and "int" in lines[index]) or ("char" in lines[index] and "number" in lines[index])):
@@ -81,6 +87,9 @@ for index in range(len(sepratedSyntaxTree)):
             else:
                 result+="%s "% sepratedSyntaxTree[index][j][1]
         result+="\n"
+
+
+# Write SemanticTree
 
 with open("Khan4/semanticTree.txt","w") as f:
     f.write("".join(result))
