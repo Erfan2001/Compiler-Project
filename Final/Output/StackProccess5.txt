@@ -24,7 +24,12 @@ $ compound-statement
 $ statement {
 $ labeled-statement
 $ labeled-statement-temp identifier
-$ semicolon --
+$ semicolon expression-statement calculation
+$ semicolon expression-statement =
+$ semicolon exp-st identifier
+$ semicolon expression-statement operation
+$ semicolon expression-statement -
+$ semicolon exp-st number
 $ semicolon-temp ;
 $ brace
 $ brace-temp }

@@ -36,7 +36,7 @@ for filename in glob.glob(os.path.join(folder_path, '*.c')):
     os.system("python Khan5/index.py")
     with open("out/codeGeneration.txt","r") as f:
         codeGeneration=f.read()
-    with open("Final/Output/codeGeneration%s.txt"%str(index),"w") as f:
+    with open("Final/Output/codeGeneration%s.asm"%str(index),"w") as f:
         f.write(codeGeneration)
     print("-----------------------------------------------------------------------")
     

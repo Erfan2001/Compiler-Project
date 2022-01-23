@@ -1,2 +1,4 @@
-int b = s
-> b 
+int a = 1
+char b = s
+a > b 
+a = a - 1 

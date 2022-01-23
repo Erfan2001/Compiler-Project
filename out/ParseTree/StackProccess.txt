@@ -2,31 +2,15 @@ $ statement { ) ( main int
 $ initialize-statement
 $ initialize-statement-temp identifier type
 $ initialize-statement-temp identifier int
-$ semicolon expression-statement =
-$ semicolon exp-st number
+$ semicolon
 $ semicolon-temp ;
 $ statement
-$ initialize-statement
-$ initialize-statement-temp identifier type
-$ initialize-statement-temp identifier char
-$ semicolon expression-statement =
-$ semicolon exp-st number
-$ semicolon-temp ;
-$ statement
-$ selection-statement
-$ statement ) condition ( if
-$ statement ) condition-temp expression-statement
-$ statement ) condition-temp exp-st identifier
-$ statement ) expression-statement comparison
-$ statement ) expression-statement >
-$ statement ) exp-st identifier
-$ compound-statement
-$ statement {
 $ labeled-statement
 $ labeled-statement-temp identifier
-$ semicolon --
+$ semicolon expression-statement calculation
+$ semicolon expression-statement =
+$ semicolon exp-st number
 $ semicolon-temp ;
 $ brace
 $ brace-temp }
-$ }
 $

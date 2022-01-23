@@ -21,7 +21,10 @@ identifier:: b
 punctuation:: )
 punctuation:: {
 identifier:: a
-operation:: --
+operation:: =
+identifier:: a
+operation:: -
+number:: 1
 punctuation:: ;
 punctuation:: }
 punctuation:: }
