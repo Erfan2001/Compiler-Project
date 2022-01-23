@@ -10,6 +10,7 @@ Team Members 😎:
 
 Master : Ms.Zojaji
 
+Presentation Link : https://drive.google.com/file/d/15wRuGV95t8c1Q6kel-pGn-paAf-CX2rt/view
 
 OverView : Generally our project is based on python code.
 The project is divided to 5 Phases including:
