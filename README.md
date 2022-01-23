@@ -12,10 +12,11 @@ Master : Ms.Zojaji
 
 
 OverView : Generally our project is based on python code.
-The project is divided to 4 Phases including:
+The project is divided to 5 Phases including:
 1. Pre Processing
 2. Lexical Analyzer
 3. Syntax Analyzer
 4. Semantic Analyzer
+5. Code Generation
 
 Fall 1400
