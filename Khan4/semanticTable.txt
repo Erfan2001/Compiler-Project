@@ -1,8 +1,1 @@
-int sum
-int sumo
-int mul
-int number
-int total
-int number
-int sum
-int end
+int b

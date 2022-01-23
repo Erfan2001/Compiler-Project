@@ -1,13 +1,5 @@
-int main() {
-int sum = 0;
-int sumo = 0;
-int mul = 0;
-sumo = mul + sum ;
-sumo = mul + sum ;
-sumo = mul + sum ;
-int number = 3 ;
-int total = number / sum ;
-int end = 1 ;
-if(end)
-   return 0 ;
+int main()
+{
+int b[3];
+b[0] = 4;
 }
