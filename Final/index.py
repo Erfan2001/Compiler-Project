@@ -38,5 +38,6 @@ for filename in glob.glob(os.path.join(folder_path, '*.c')):
         codeGeneration=f.read()
     with open("Final/Output/codeGeneration%s.txt"%str(index),"w") as f:
         f.write(codeGeneration)
+    print("-----------------------------------------------------------------------")
     
     

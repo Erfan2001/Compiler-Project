@@ -6,21 +6,11 @@ $ semicolon expression-statement =
 $ semicolon exp-st number
 $ semicolon-temp ;
 $ statement
-$ labeled-statement
-$ labeled-statement-temp identifier
-$ semicolon expression-statement calculation
-$ semicolon expression-statement +=
-$ semicolon exp-st number
-$ semicolon-temp ;
-$ statement
 $ initialize-statement
 $ initialize-statement-temp identifier type
 $ initialize-statement-temp identifier int
 $ semicolon expression-statement =
 $ semicolon exp-st number
-$ semicolon expression-statement operation
-$ semicolon expression-statement +
-$ semicolon exp-st identifier
 $ semicolon-temp ;
 $ brace
 $ brace-temp }

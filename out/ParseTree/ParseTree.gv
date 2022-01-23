@@ -48,13 +48,119 @@ digraph {
 	19 [label=";"]
 	13 -> 19
 	18 [label="semicolon-temp"]
-	20 [label=brace]
+	20 [label=statement]
 	18 -> 20
-	20 [label=brace]
-	21 [label="brace-temp"]
+	20 [label=statement]
+	21 [label="initialize-statement"]
 	20 -> 21
-	22 [label="}"]
-	20 -> 22
+	21 [label="initialize-statement"]
+	22 [label="initialize-statement-temp"]
+	21 -> 22
+	23 [label=identifier]
+	21 -> 23
+	24 [label=type]
+	21 -> 24
+	24 [label=type]
+	25 [label=char]
+	24 -> 25
+	22 [label="initialize-statement-temp"]
+	26 [label=semicolon]
+	22 -> 26
+	27 [label="expression-statement"]
+	22 -> 27
+	28 [label="="]
+	22 -> 28
+	27 [label="expression-statement"]
+	29 [label="exp-st"]
+	27 -> 29
+	30 [label=number]
+	27 -> 30
 	-99 [label=Epsilon]
-	21 -> -99
+	29 -> -99
+	26 [label=semicolon]
+	31 [label="semicolon-temp"]
+	26 -> 31
+	32 [label=";"]
+	26 -> 32
+	31 [label="semicolon-temp"]
+	33 [label=statement]
+	31 -> 33
+	33 [label=statement]
+	34 [label="selection-statement"]
+	33 -> 34
+	34 [label="selection-statement"]
+	35 [label=statement]
+	34 -> 35
+	36 [label=")"]
+	34 -> 36
+	37 [label=condition]
+	34 -> 37
+	38 [label="("]
+	34 -> 38
+	39 [label=if]
+	34 -> 39
+	37 [label=condition]
+	40 [label="condition-temp"]
+	37 -> 40
+	41 [label="expression-statement"]
+	37 -> 41
+	41 [label="expression-statement"]
+	42 [label="exp-st"]
+	41 -> 42
+	43 [label=identifier]
+	41 -> 43
+	-98 [label=Epsilon]
+	42 -> -98
+	40 [label="condition-temp"]
+	44 [label="expression-statement"]
+	40 -> 44
+	45 [label=comparison]
+	40 -> 45
+	45 [label=comparison]
+	46 [label=">"]
+	45 -> 46
+	44 [label="expression-statement"]
+	47 [label="exp-st"]
+	44 -> 47
+	48 [label=identifier]
+	44 -> 48
+	-97 [label=Epsilon]
+	47 -> -97
+	35 [label=statement]
+	49 [label="compound-statement"]
+	35 -> 49
+	49 [label="compound-statement"]
+	50 [label=statement]
+	49 -> 50
+	51 [label="{"]
+	49 -> 51
+	50 [label=statement]
+	52 [label="labeled-statement"]
+	50 -> 52
+	52 [label="labeled-statement"]
+	53 [label="labeled-statement-temp"]
+	52 -> 53
+	54 [label=identifier]
+	52 -> 54
+	53 [label="labeled-statement-temp"]
+	55 [label=semicolon]
+	53 -> 55
+	56 [label="--"]
+	53 -> 56
+	55 [label=semicolon]
+	57 [label="semicolon-temp"]
+	55 -> 57
+	58 [label=";"]
+	55 -> 58
+	57 [label="semicolon-temp"]
+	59 [label=brace]
+	57 -> 59
+	59 [label=brace]
+	60 [label="brace-temp"]
+	59 -> 60
+	61 [label="}"]
+	59 -> 61
+	60 [label="brace-temp"]
+	62 [label="}"]
+	60 -> 62
 }
