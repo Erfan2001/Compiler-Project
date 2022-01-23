@@ -1,0 +1,10 @@
+$ statement { ) ( main int
+$ initialize-statement
+$ initialize-statement-temp identifier type
+$ initialize-statement-temp identifier int
+$ semicolon expression-statement =
+$ semicolon exp-st number
+$ semicolon-temp ;
+$ brace
+$ brace-temp }
+$

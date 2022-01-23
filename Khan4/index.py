@@ -6,8 +6,6 @@ makeSemanticTable()
 
 inOrderTraversal = []
 
-ParseTree = Syntax()
-
 # ParseTree = Syntax()
 
 # def inorderTraversal(root,):

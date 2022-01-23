@@ -4,8 +4,6 @@ punctuation:: (
 punctuation:: )
 punctuation:: {
 keyword:: int
-identifier:: c
-operation:: =
-number:: 2
+identifier:: b
 punctuation:: ;
 punctuation:: }

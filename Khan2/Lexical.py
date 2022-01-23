@@ -4,15 +4,6 @@ sys.path.append( './' )
 from Khan1.PreProcessing import PreProcess
 
 
-# Input Path
-
-# inputFile = input("Enter Input Path\n")
-
-# Output Path
-
-# outputFile = input("Enter Output Path\n")
-
-
 # Get Value from regex
 
 def finder(arr: list):
@@ -48,8 +39,6 @@ def dfa(str1: str, lineNumber: int):
             token = str1[begin:i]
             if((str1[begin-1]=='"' and str1[i]=='"') or (str1[begin-1]=="'" and str1[i]=="'")):
                 output.append(("number",token,lineNumber))
-            # elif((str1[begin-1] not in ["'",'"'] and str1[i] in ["'",'"'] )or (str1[begin-1] in ["'",'"'] and str1[i] not in ["'",'"'] )):
-            #     print("lexical error that happened in line : %d " % lineNumber)
             else:
                 if(token in keyword):
                     output.append(("keyword", token,lineNumber))

@@ -1,0 +1,9 @@
+$ statement { ) ( main int
+$ initialize-statement
+$ initialize-statement-temp identifier type
+$ initialize-statement-temp identifier int
+$ semicolon
+$ semicolon-temp ;
+$ brace
+$ brace-temp }
+$

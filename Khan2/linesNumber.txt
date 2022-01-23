@@ -4,7 +4,7 @@ punctuation:: (:: 1
 punctuation:: ):: 1
 punctuation:: {:: 2
 keyword:: int:: 3
-identifier:: b:: 3
+identifier:: c:: 3
 operation:: =:: 3
 number:: 2:: 3
 punctuation:: ;:: 3

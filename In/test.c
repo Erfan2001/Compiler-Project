@@ -1,6 +1,4 @@
-#include "mylib.txt"
-#define start int main()
-start
+int main()
 {
-int b=2;
+int c=2;
 }

@@ -16,56 +16,45 @@ digraph {
 	7 [label=int]
 	1 -> 7
 	2 [label=statement]
-	8 [label="labeled-statement"]
+	8 [label="initialize-statement"]
 	2 -> 8
-	8 [label="labeled-statement"]
-	9 [label="labeled-statement-temp"]
+	8 [label="initialize-statement"]
+	9 [label="initialize-statement-temp"]
 	8 -> 9
 	10 [label=identifier]
 	8 -> 10
-	9 [label="labeled-statement-temp"]
-	11 [label=semicolon]
-	9 -> 11
-	12 [label="expression-statement"]
-	9 -> 12
-	13 [label=calculation]
+	11 [label=type]
+	8 -> 11
+	11 [label=type]
+	12 [label=int]
+	11 -> 12
+	9 [label="initialize-statement-temp"]
+	13 [label=semicolon]
 	9 -> 13
-	13 [label=calculation]
-	14 [label="="]
-	13 -> 14
-	12 [label="expression-statement"]
-	15 [label="exp-st"]
-	12 -> 15
-	16 [label=identifier]
-	12 -> 16
-	15 [label="exp-st"]
-	17 [label="expression-statement"]
-	15 -> 17
-	18 [label=operation]
-	15 -> 18
-	18 [label=operation]
-	19 [label="+"]
-	18 -> 19
-	17 [label="expression-statement"]
-	20 [label="exp-st"]
-	17 -> 20
-	21 [label=identifier]
-	17 -> 21
+	14 [label="expression-statement"]
+	9 -> 14
+	15 [label="="]
+	9 -> 15
+	14 [label="expression-statement"]
+	16 [label="exp-st"]
+	14 -> 16
+	17 [label=number]
+	14 -> 17
 	-100 [label=Epsilon]
-	20 -> -100
-	11 [label=semicolon]
-	22 [label="semicolon-temp"]
-	11 -> 22
-	23 [label=";"]
-	11 -> 23
-	22 [label="semicolon-temp"]
-	24 [label=brace]
-	22 -> 24
-	24 [label=brace]
-	25 [label="brace-temp"]
-	24 -> 25
-	26 [label="}"]
-	24 -> 26
+	16 -> -100
+	13 [label=semicolon]
+	18 [label="semicolon-temp"]
+	13 -> 18
+	19 [label=";"]
+	13 -> 19
+	18 [label="semicolon-temp"]
+	20 [label=brace]
+	18 -> 20
+	20 [label=brace]
+	21 [label="brace-temp"]
+	20 -> 21
+	22 [label="}"]
+	20 -> 22
 	-99 [label=Epsilon]
-	25 -> -99
+	21 -> -99
 }

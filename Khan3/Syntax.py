@@ -146,6 +146,6 @@ for item in stackProccess:
     content += " ".join(arr)+"\n"
 with open("out/ParseTree/StackProccess.txt", "w") as f:
     f.write(content)
-# dot.render('out/ParseTree/ParseTree.gv', view=True)
+dot.render('out/ParseTree/ParseTree.gv', view=False)
 with open("Khan3/inOrderTraversal.txt", "w") as f:
     f.write("%s" % inOrderTraversal)
