@@ -1,3 +1,4 @@
+from math import fabs
 import re
 import sys
 sys.path.append( './' )
@@ -9,6 +10,7 @@ from Khan1.PreProcessing import PreProcess
 def finder(arr: list):
     return [x for x in arr if x]
 
+
 # Run Khan1
 PreProcess()
 
@@ -18,10 +20,12 @@ operationRegex = "[\+|\-|\*|\/|\%]+[\=]|[\+]+[\+]|[\-]+[\-]|[\+|\-|\*|\/|\%]|[\=
 # Comparison Regex
 comparisonRegex = "[\<|\>|\=|\!]+[\=]|[\<]|[\>]"
 # Punctuation Regex
-punctuationRegex = "\(|\)|\;|\,|\[|\]|\{|\}"
+punctuationRegex = "\(|\)|\;|\,|\{|\}"
 # Keywords
 keyword = ["if", "else", "main", "while", "int","char",
            "float", "for", "string", "do", "#include"]
+
+
 
 # Tokens saved in output list
 output: list = []
@@ -30,6 +34,8 @@ output: list = []
 def dfa(str1: str, lineNumber: int):
     begin = 0
     flag = False
+    arrayFlag=False ;
+    temp =[]
 
     for i in range(len(str1)):
         if(finder(re.findall("^[a-zA-Z_0-9\.]*", str1[i]))):
@@ -39,10 +45,22 @@ def dfa(str1: str, lineNumber: int):
             token = str1[begin:i]
             if((str1[begin-1]=='"' and str1[i]=='"') or (str1[begin-1]=="'" and str1[i]=="'")):
                 output.append(("number",token,lineNumber))
+            # elif((str1[begin-1] not in ["'",'"'] and str1[i] in ["'",'"'] )or (str1[begin-1] in ["'",'"'] and str1[i] not in ["'",'"'] )):
+            #     print("lexical error that happened in line : %d " % lineNumber)
             else:
+                
                 if(token in keyword):
                     output.append(("keyword", token,lineNumber))
-                
+
+                if(arrayFlag and str1[i]=='[') :
+                    temp += str1[i]
+                if(arrayFlag and finder(re.findall("^[0-9]+$", token))):
+                    temp += token 
+                if(arrayFlag and str1[i]==']') :
+                        arrayFlag = False  
+                        output.pop()
+                        output.append(("identifier", temp,lineNumber))
+
                 #Identifier startWith number
                 elif(finder(re.findall("^[0-9]+[a-df-zA-Z_]+[a-zA-Z_0-9]*", token))):
                     print("lexical error that happened in line : %d " % lineNumber)
@@ -64,11 +82,15 @@ def dfa(str1: str, lineNumber: int):
                     print("lexical error that happened in line : %d " % lineNumber)
 
                 #9.9
-                elif(finder(re.findall("^[0-9]+[.][0-9]+$", token))):
+                elif(finder(re.findall("^[0-9]+[.][0-9]+$", token)) ):
+                    output.append(("number", token,lineNumber))
+
+
+                elif(finder(re.findall("^[0-9]+[x][0-9]+$", token)) ):
                     output.append(("number", token,lineNumber))
 
                 #99
-                elif(finder(re.findall("^[0-9]+$", token))):
+                elif(finder(re.findall("^[0-9]+$", token)) ):
                     output.append(("number", token,lineNumber))
 
                 #9.9e9
@@ -78,12 +100,18 @@ def dfa(str1: str, lineNumber: int):
                 #9e223
                 elif(finder(re.findall("^[0-9]+[e][0-9]+$", token))):
                     output.append(("number", token,lineNumber))
-
+            
+                    
                 elif(finder(re.findall("^[a-zA-Z_][a-zA-Z_0-9]*", token))):
-                    output.append(("identifier", token,lineNumber))
+                    temp = token ;
+                    arrayFlag = True ;
+                    if( temp not in keyword) :
+                        output.append(("identifier", token,lineNumber))
+                        
 
-                if(finder(re.findall(punctuationRegex, str1[i]))):
-                    output.append(("punctuation", str1[i],lineNumber))
+                if(finder(re.findall(punctuationRegex, str1[i])) ):
+                    if (not str1[i]=="[") :
+                        output.append(("punctuation", str1[i],lineNumber))
 
                 if(i <= len(str1)-2 and finder(re.findall(comparisonRegex, str1[i]+str1[i+1]))):
                     if(not(flag) and len(re.findall(comparisonRegex, str1[i]+str1[i+1])[0]) == 2):
@@ -97,11 +125,13 @@ def dfa(str1: str, lineNumber: int):
                         flag = False
                 elif(i <= len(str1)-2 and finder(re.findall(operationRegex, str1[i]+str1[i+1]))):
                     if(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 2):
-                        output.append(("operation", str1[i]+str1[i+1],lineNumber))
-                        flag = True
+                        if( not str1[i] == "]" and not str1[i+1]=="]") :
+                            output.append(("operation", str1[i]+str1[i+1],lineNumber))
+                            flag = True
 
                     elif(not(flag) and len(re.findall(operationRegex, str1[i]+str1[i+1])[0]) == 1):
-                        output.append(("operation", str1[i],lineNumber))
+                        if( not str1[i] == "]" ) :
+                            output.append(("operation", str1[i],lineNumber))
 
                     else:
                         flag = False
@@ -117,27 +147,28 @@ with open("In/new.txt") as f:
 
 lineNumber = 1
 
+
 # remove Space between words
 
 for i in lines:
     lineWords = []
     newArr = i.split(" ")
+    if  not i.startswith("#") :
+        for i in range(len(newArr)):
+            try:
+                if(newArr[i] in keyword):
+                    lineWords.append(newArr[i]+" ")
 
-    for i in range(len(newArr)):
-        try:
-            if(newArr[i] in keyword):
-                lineWords.append(newArr[i]+" ")
+                elif(newArr[i][0:3] == "for" and newArr[i].split("(")[1] in keyword):
+                    lineWords.append(newArr[i]+" ")
 
-            elif(newArr[i][0:3] == "for" and newArr[i].split("(")[1] in keyword):
-                lineWords.append(newArr[i]+" ")
+                else:
+                    lineWords.append(newArr[i])
+            except IndexError as e:
+                raise Exception("Keyword Not Found")
 
-            else:
-                lineWords.append(newArr[i])
-        except IndexError as e:
-            raise Exception("Keyword Not Found")
-
-    dfa("".join(lineWords), lineNumber)
-    lineNumber += 1
+        dfa("".join(lineWords), lineNumber)
+        lineNumber += 1
 
 
 # Write in Output File
@@ -148,6 +179,7 @@ with open("out/answer.txt", "w") as f:
         f.write(":: ")
         f.write(i[1])
         f.write("\n")
+
 with open("Khan2/linesNumber.txt", "w") as f:
     for i in output:
         f.write(i[0])
