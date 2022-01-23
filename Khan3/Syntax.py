@@ -54,7 +54,6 @@ ll1 = {"int": {"mainStatement": "int main ( ) { statement", "statement": "initia
        "$": {"brace-temp": "epsilon"}
        }
 
-operationRegex = "[\+|\-|\*|\/|\%]+[\=]|[\+]+[\+]|[\-]+[\-]|[\+|\-|\*|\/|\%]|[\=]"
 pairs = []
 dot = graphviz.Digraph()
 stackProccess = []
