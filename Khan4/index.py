@@ -6,6 +6,17 @@ makeSemanticTable()
 
 inOrderTraversal = []
 
+ParseTree = Syntax()
+
+# ParseTree = Syntax()
+
+# def inorderTraversal(root,):
+
+#     for children in root.child:
+#         inorderTraversal(children)
+
+# inorderTraversal(ParseTree)
+
 with open("Khan4/semanticTable.txt") as f:
     identifierTable = f.readlines()
 

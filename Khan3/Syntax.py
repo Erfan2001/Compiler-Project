@@ -3,14 +3,14 @@ import os
 import re
 
 
-class Node:  # add by amin
+class Node: 
 
-    def __init__(self, value):  # add by amin
+    def __init__(self, value): 
         self.value = value
         self.child = []
 
 
-def newNode(value):  # add by amin
+def newNode(value):  
     tmp = Node(value)
     return tmp
 
@@ -118,21 +118,18 @@ while(stack[-1][0] != '$'):
         parent = stack.pop()
         if parent != "mainStatement":
             dot.node(str(parent[1]), parent[0])
-            root = newNode(parent[0])  # add by amin
+            root = newNode(parent[0]) 
             if parent[0] == "mainStatement":
                 finalTree = root
-            # print(root.value, "root")                    #deleteeeeee
         for word in non_space:
             dot.node(str(counter), word)
-            root.child.append(newNode(word))  # add by amin
+            root.child.append(newNode(word)) 
             if((word == "identifier" or word == "operation" or word == "number" or word == "calculation" or word == "comparison")):
                 inOrderTraversal.append(
                     (word, buffer[bufferIterator][1], buffer[bufferIterator][2]))
             dot.edge(str(parent[1]), str(counter))
             stack.append((word, counter))
             counter += 1
-        # for item in root.child:                          #deleteeeeee
-        # print(item.value, "child")                   #deleteeeeee
         stackProccess.append(stack.copy())
     if(not flag1 and not flag2):
         raise Exception('Syntax Error : {}'.format(e)) from None
