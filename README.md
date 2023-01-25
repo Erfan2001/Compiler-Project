@@ -20,4 +20,4 @@ The project is divided to 5 Phases including:
 4. Semantic Analyzer
 5. Code Generation
 
-Fall 1400
+Fall 2021
