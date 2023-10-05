@@ -1,6 +1,4 @@
-### In The Name Of God
-***
-Compiler Analysis Project 
+# Compiler Analysis Project 
 
 Team Members 😎:
 * Seyed Erfan Nourbakhsh 983613059
